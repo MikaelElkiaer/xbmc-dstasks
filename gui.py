@@ -10,6 +10,19 @@ KEY_MENU_ID = 92
 MSG_METHOD = 1
 MSG_EXIT = 2
 
+STATUS_ICONS = {
+    'waiting' : 'waiting',
+    'downloading' : 'downloading',
+    'paused' : 'paused',
+    'finishing' : 'finished',
+    'finished' : 'finished',
+    'hash_checking' : 'hash_checking',
+    'seeding' : 'seeding',
+    'filehosting_waiting' : 'filehosting_waiting',
+    'extracting' : 'extracting',
+    'error' : 'error'
+}
+
 class GUI(xbmcgui.WindowXML):
     def __init__(self, xmlFilename, scriptPath, addon):
         self.__addon = addon
@@ -33,7 +46,8 @@ class GUI(xbmcgui.WindowXML):
         self.__ds = DS(self.__addon.DSPath, self.__addon.IsSecured)
 
         p = xbmcgui.DialogProgress()
-        p.create("DS", "Connecting to DS on %s" % self.__addon.DSPath)
+        p.create("DS", "Connecting to DS on %s..." % self.__addon.DSPath)
+        p.update(25)
 
         try:
             if not self.__ds.Login(self.__addon.Username, self.__addon.Password):
@@ -46,6 +60,8 @@ class GUI(xbmcgui.WindowXML):
             self.__close()
 
         else:
+            p.update(75, "Getting tasks...")
+            self.__getTasks()
             if p.iscanceled():
                 p.close()
                 self.__close()
@@ -73,20 +89,24 @@ class GUI(xbmcgui.WindowXML):
                     running = False
                     break
 
-            tasks = self.__ds.GetTaskList()
-            taskList = self.getControl(51)
+            self.__getTasks()
 
-            count = len(tasks)
 
-            if count != len(self.__items):
-                taskList.reset()
-                self.__items = [xbmcgui.ListItem() for u in range(count)]
-                taskList.addItems(self.__items)
+    def __getTasks(self):
+        tasks = self.__ds.GetTaskList()
+        taskList = self.getControl(51)
 
-            for task, item in zip(tasks, self.__items):
-                item.setLabel(task.Title)
-                item.setIconImage("status/%s.png" % task.Status)
-                item.setProperty("ID", task.ID)
+        count = len(tasks)
+
+        if count != len(self.__items):
+            taskList.reset()
+            self.__items = [xbmcgui.ListItem() for u in range(count)]
+            taskList.addItems(self.__items)
+
+        for task, item in zip(tasks, self.__items):
+            item.setLabel(task.Title)
+            item.setIconImage("status/%s.png" % STATUS_ICONS.get(task.Status, "default"))
+            item.setProperty("ID", task.ID)
 
     def __close(self):
         self.__queue.put((MSG_EXIT, None))
