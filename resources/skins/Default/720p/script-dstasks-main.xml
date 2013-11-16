@@ -132,7 +132,7 @@
       <width>1000</width>
       <height>30</height>
       <include>WindowTitleCommons</include>
-      <label>$LOCALIZE[0][COLOR=blue] - [/COLOR]DSTasks</label>
+      <label>DSTasks</label>
     </control>
     <include>Clock</include>
     <include>CommonPageCount</include>

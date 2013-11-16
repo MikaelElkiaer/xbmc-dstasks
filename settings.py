@@ -1,8 +1,9 @@
-class Settings(self, addon):
-    self.__dsPath = addon.getSetting("ds.path")
-    self.__dsSecured = addon.getSetting("ds.secured")[0].upper() == "T"
-    self.__dsUsername = addon.getSetting("ds.username")
-    self.__dsPassword = addon.getSetting("ds.password")
+class Settings:
+    def __init__(self, addon):
+        self.__dsPath = addon.getSetting("ds.path")
+        self.__dsSecured = addon.getSetting("ds.secured")[0].upper() == "T"
+        self.__dsUsername = addon.getSetting("ds.username")
+        self.__dsPassword = addon.getSetting("ds.password")
 
     @property
     def Path(self): return self.__dsPath

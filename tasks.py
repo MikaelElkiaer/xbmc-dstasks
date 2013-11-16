@@ -6,10 +6,10 @@ class DS:
     __loginURL = "auth.cgi?api=SYNO.API.Auth&version=2&method=login&account=%s&passwd=%s&session=DownloadStation&format=sid"
     __taskListURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=list&_sid=%s"
     __taskInfoURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=getinfo&id=%s&additional=detail,transfer&_sid=%s"
-    __versionURL = "query.cgi?api=SYNO.API.Info&version=1&method=query&query=SYNO.API.Auth,SYNO.DownloadStation.Task"
-    __logoutURL = "auth.cgi?api=SYNO.API.Auth&version=1&method=logout&session=DownloadStation&_sid=%s"
+    __taskPauseURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=pause&id=%s&_sid=%s"
+    __logoutURL = "auth.cgi?api=SYNO.API.Auth&version=1&method=logout&session=DownloadStation"
 
-    def __init__(self, path, isSecured, username, password):
+    def __init__(self, path, isSecured):
         protocol = "http"
         port = "5000"
 
@@ -18,25 +18,24 @@ class DS:
             port = "5001"
 
         self.__baseURL = "%s://%s:%s/webapi/" % (protocol, path, port)
-
-        self.__sessionID = self.__login(username, password)
-
-        self.taskList = self.__getTaskList()
-
-        self.__logout()
         
-    def __login(self, username, password):
-        loginResponse = urllib2.urlopen(self.__baseURL + self.__loginURL % (username, password))
-        sessionID = json.loads(loginResponse.read())["data"]["sid"]
-        
-        return sessionID
-        
-    def __logout(self):
-        urllib2.urlopen(self.__baseURL + self.__logoutURL % self.__sessionID)
+    def Login(self, username, password):
+        response = urllib2.urlopen(self.__baseURL + self.__loginURL % (username, password))
+        responseJSON = json.loads(response.read())
 
-    def __getTaskList(self):
-        listResponse = urllib2.urlopen(self.__baseURL + self.__taskListURL % self.__sessionID)
-        taskList = json.loads(listResponse.read())["data"]["tasks"]
+        success = responseJSON["success"]
+
+        if success:
+            self.__sessionID = responseJSON["data"]["sid"]
+
+        return success
+        
+    def Logout(self):
+        urllib2.urlopen(self.__baseURL + self.__logoutURL)
+
+    def GetTaskList(self):
+        response = urllib2.urlopen(self.__baseURL + self.__taskListURL % self.__sessionID)
+        taskList = json.loads(response.read())["data"]["tasks"]
         ids = ""
         for task in taskList:
             ids += task["id"] + ","
@@ -60,6 +59,9 @@ class DS:
             dstasks.append(DSTask(id, title, status, size, sizeDownloaded, sizeUploaded, speedDownload, speedUpload))
 
         return dstasks
+
+    def Pause(self, id):
+        urllib2.urlopen(self.__baseURL + self.__taskPauseURL % (id, self.__sessionID))
 
 class DSTask:
     def __init__(self, id, title, status, size, sizeDownloaded, sizeUploaded, speedDownload, speedUpload):

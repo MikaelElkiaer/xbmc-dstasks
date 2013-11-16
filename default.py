@@ -3,6 +3,6 @@ from gui import GUI
 
 Addon = Addon('script.dstasks')
 
-w = GUI('script-dstasks-main.xml', Addon.Path, 'Default')
-w.doModal()
-del w
+GUI = GUI('script-dstasks-main.xml', Addon.Path, addon=Addon)
+GUI.doModal()
+del GUI

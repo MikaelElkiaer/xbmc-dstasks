@@ -1,30 +1,36 @@
 import xbmcaddon
-import urlparse
 
 class Addon:
     def __init__(self, addonID):
-        addon = xbmcaddon.Addon(id=addonID)
-        self.__name = addon.getAddonInfo('name')
-        self.__icon = addon.getAddonInfo('icon')
-        self.__language = addon.getLocalizedString
+        self.__addon = xbmcaddon.Addon(id=addonID)
+        self.Update()
 
-        self.__path = addon.getAddonInfo('path')
+    def OpenSettings(self):
+        self.__addon.openSettings()
+
+    def Update(self):
+        self.__name = self.__addon.getAddonInfo('name')
+        self.__icon = self.__addon.getAddonInfo('icon')
+        self.__language = self.__addon.getLocalizedString
+        self.__path = self.__addon.getAddonInfo('path')
+        self.__dsPath = self.__addon.getSetting("ds.path")
+        self.__dsSecured = self.__addon.getSetting("ds.secured")[0].upper() == "T"
+        self.__dsUsername = self.__addon.getSetting("ds.username")
+        self.__dsPassword = self.__addon.getSetting("ds.password")
 
     @property
     def Name(self): return self.__name
     @property
     def Icon(self): return self.__icon
     @property
+    def Language(self): return self.__language
+    @property
     def Path(self): return self.__path
-    @property
-    def Handle(self): return self.__handle
-    @property
-    def Parameters(self): return self.__params
     @property
     def DSPath(self): return self.__dsPath
     @property
-    def DSSecured(self): return self.__dsSecured
+    def IsSecured(self): return self.__dsSecured
     @property
-    def DSUsername(self): return self.__dsUsername
+    def Username(self): return self.__dsUsername
     @property
-    def DSPassword(self): return self.__dsPassword
+    def Password(self): return self.__dsPassword
