@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<addon id="script.dstasks" name="DSTasks" version="0.1" provider-name="mikaelec">
+	<requires>
+		<import addon="xbmc.python" version="2.7.3"/>
+	</requires>
+  <extension point="xbmc.python.script" library="default.py"/>
+	<extension point="xbmc.addon.metadata">
+		<description>Manage Synology DownloadStation tasks</description>
+		<summary>Manage DS tasks</summary>
+		<platform>all</platform>
+	</extension>
+</addon>
