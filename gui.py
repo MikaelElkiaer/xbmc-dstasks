@@ -10,19 +10,6 @@ KEY_MENU_ID = 92
 MSG_METHOD = 1
 MSG_EXIT = 2
 
-STATUS_ICONS = {
-    'waiting' : 'waiting',
-    'downloading' : 'downloading',
-    'paused' : 'paused',
-    'finishing' : 'finished',
-    'finished' : 'finished',
-    'hash_checking' : 'hash_checking',
-    'seeding' : 'seeding',
-    'filehosting_waiting' : 'filehosting_waiting',
-    'extracting' : 'extracting',
-    'error' : 'error'
-}
-
 class GUI(xbmcgui.WindowXML):
     def __init__(self, xmlFilename, scriptPath, addon):
         self.__addon = addon
@@ -105,7 +92,7 @@ class GUI(xbmcgui.WindowXML):
 
         for task, item in zip(tasks, self.__items):
             item.setLabel(task.Title)
-            item.setIconImage("status/%s.png" % STATUS_ICONS.get(task.Status, "default"))
+            item.setIconImage("status/%s.png" % task.Status)
             item.setProperty("ID", task.ID)
 
     def __close(self):
@@ -121,5 +108,5 @@ class GUI(xbmcgui.WindowXML):
         pass
 
     def onAction(self, action):
-        if (action.getButtonCode() == KEY_BUTTON_BACK) or (action.getId() == KEY_MENU_ID):
+        if (action.getButtonCode() == KEY_BUTTON_BACK) or(action.getId() == KEY_MENU_ID):
             self.__close()
