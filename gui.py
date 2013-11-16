@@ -24,7 +24,7 @@ class GUI(xbmcgui.WindowXML):
 
         for key, item in zip(range(10), self.items):
             item.setLabel('Item %s' % key)
-            item.setIconImage('DefaultFolder.png')
+            item.setIconImage('status/downloading.png')
 
         tor_list.setEnabled(True)
 
