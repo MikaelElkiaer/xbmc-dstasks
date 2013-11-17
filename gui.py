@@ -47,6 +47,9 @@ class GUI(xbmcgui.WindowXML):
             self.__close()
 
         else:
+            if p.iscanceled():
+                p.close()
+                self.__close()
             p.update(75, "Getting tasks...")
             self.__getTasks()
             if p.iscanceled():
