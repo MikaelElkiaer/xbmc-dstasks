@@ -145,4 +145,4 @@ class GUI(xbmcgui.WindowXML):
                 self.__ds.Pause(taskID)
         elif action.getButtonCode() == KEY_STOP:
             if xbmcgui.Dialog().yesno("Delete task", "Are you sure you want to delete:", taskTitle + " ?"):
-                pass
+                self.__ds.Delete(taskID)

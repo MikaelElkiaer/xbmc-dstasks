@@ -48,7 +48,7 @@
             <info>ListItem.Property(TaskDownProgress)</info>
             <midtexture border="6,0,6,0">TaskDownProgressMid.png</midtexture>
             <texturebg border="6,0,6,0">OSDProgressBack.png</texturebg>
-            <visible>Control.IsVisible(51) + !ListItem.Property(DownloadFinished)</visible>
+            <visible>!ListItem.Property(DownloadFinished)</visible>
           </control>
           <control type="progress" id="53">
             <description>Download progress</description>
@@ -59,7 +59,7 @@
             <info>ListItem.Property(TaskUpProgress)</info>
             <midtexture border="6,0,6,0">TaskUpProgressMid.png</midtexture>
             <texturebg border="6,0,6,0">OSDProgressBack.png</texturebg>
-            <visible>Control.IsVisible(51) + ListItem.Property(DownloadFinished)</visible>
+            <visible>ListItem.Property(DownloadFinished)</visible>
           </control>
           <control type="label">
             <posx>900</posx>
@@ -72,7 +72,6 @@
             <align>left</align>
             <aligny>center</aligny>
             <label>D: $INFO[ListItem.Property(SpeedDownload)] kb/s</label>
-            <visible>Control.IsVisible(51)</visible>
           </control>
           <control type="label">
             <posx>1000</posx>
@@ -85,7 +84,6 @@
             <align>left</align>
             <aligny>center</aligny>
             <label>U: $INFO[ListItem.Property(SpeedUpload)] kb/s</label>
-            <visible>Control.IsVisible(51)</visible>
           </control>
           <control type="label">
             <posx>60</posx>
@@ -98,7 +96,6 @@
             <align>left</align>
             <aligny>center</aligny>
             <label>$INFO[ListItem.Label]</label>
-            <visible>Control.IsVisible(51)</visible>
           </control>
         </itemlayout>
         <focusedlayout height="40" width="1080">
@@ -136,7 +133,7 @@
             <info>ListItem.Property(TaskDownProgress)</info>
             <midtexture border="6,0,6,0">TaskDownProgressMid.png</midtexture>
             <texturebg border="6,0,6,0">OSDProgressBack.png</texturebg>
-            <visible>Control.IsVisible(51) + !ListItem.Property(DownloadFinished)</visible>
+            <visible>!ListItem.Property(DownloadFinished)</visible>
           </control>
           <control type="progress" id="53">
             <description>Upload progress</description>
@@ -147,7 +144,7 @@
             <info>ListItem.Property(TaskUpProgress)</info>
             <midtexture border="6,0,6,0">TaskUpProgressMid.png</midtexture>
             <texturebg border="6,0,6,0">OSDProgressBack.png</texturebg>
-            <visible>Control.IsVisible(51) + ListItem.Property(DownloadFinished)</visible>
+            <visible>ListItem.Property(DownloadFinished)</visible>
           </control>
           <control type="label">
             <posx>900</posx>
@@ -160,7 +157,6 @@
             <align>left</align>
             <aligny>center</aligny>
             <label>D: $INFO[ListItem.Property(SpeedDownload)] kb/s</label>
-            <visible>Control.IsVisible(51)</visible>
           </control>
           <control type="label">
             <posx>1000</posx>
@@ -173,7 +169,6 @@
             <align>left</align>
             <aligny>center</aligny>
             <label>U: $INFO[ListItem.Property(SpeedUpload)] kb/s</label>
-            <visible>Control.IsVisible(51)</visible>
           </control>
           <control type="label">
             <posx>60</posx>
@@ -186,7 +181,6 @@
             <align>left</align>
             <aligny>center</aligny>
             <label>$INFO[ListItem.Label]</label>
-            <visible>Control.IsVisible(51)</visible>
           </control>
         </focusedlayout>
       </control>

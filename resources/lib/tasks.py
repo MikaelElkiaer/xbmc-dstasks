@@ -8,7 +8,7 @@ class DS:
     __taskInfoURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=getinfo&id=%s&additional=detail,transfer&_sid=%s"
     __taskPauseURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=pause&id=%s&_sid=%s"
     __taskResumeURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=resume&id=%s&_sid=%s"
-    __taskDeleteURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=delete&id=%s&force_complete=true&_sid=%s"
+    __taskDeleteURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=delete&id=%s&_sid=%s"
     __logoutURL = "auth.cgi?api=SYNO.API.Auth&version=1&method=logout&session=DownloadStation"
 
     def __init__(self, path, isSecured):
