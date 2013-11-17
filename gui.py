@@ -95,6 +95,14 @@ class GUI(xbmcgui.WindowXML):
             item.setIconImage("status/%s.png" % task.Status)
             item.setProperty("ID", task.ID)
 
+            percentDownload = (float(float(task.SizeDownloaded) / float(task.Size))*100)
+            percentUpload = (float(float(task.SizeUploaded) / float(task.Size))*100)
+
+            if percentDownload == 100:
+                item.setProperty("TaskProgress", "%.2f" % percentUpload)
+            else:
+                item.setProperty("TaskProgress", "%.2f" % percentDownload)
+
     def __close(self):
         self.__queue.put((MSG_EXIT, None))
         if not self.__thread.ident == None:
