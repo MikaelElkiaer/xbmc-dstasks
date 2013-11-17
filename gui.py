@@ -91,12 +91,14 @@ class GUI(xbmcgui.WindowXML):
             taskList.addItems(self.__items)
 
         for task, item in zip(tasks, self.__items):
-            item.setLabel(task.Title)
-            item.setIconImage("status/%s.png" % task.Status)
-            item.setProperty("ID", task.ID)
-
+            size = float(task.Size) / 1000000000.0
+            sizeDownloaded = float(task.SizeDownloaded) / 1000000000.0
+            sizeUploaded = float(task.SizeUploaded) / 1000000000.0
             percentDownload = (float(float(task.SizeDownloaded) / float(task.Size))*100)
             percentUpload = (float(float(task.SizeUploaded) / float(task.Size))*100)
+            item.setLabel("%s (%.2f Gb / %.2f Gb)" % (task.Title, sizeUploaded if percentDownload == 100.0 else sizeDownloaded, size))
+            item.setIconImage("status/%s.png" % task.Status)
+            item.setProperty("ID", task.ID)
 
             item.setProperty("TaskDownProgress", "%.2f" % percentDownload)
             item.setProperty("DownloadFinished", str(1 if (percentDownload == 100.0) else 0))
