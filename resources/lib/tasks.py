@@ -7,6 +7,8 @@ class DS:
     __taskListURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=list&_sid=%s"
     __taskInfoURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=getinfo&id=%s&additional=detail,transfer&_sid=%s"
     __taskPauseURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=pause&id=%s&_sid=%s"
+    __taskResumeURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=resume&id=%s&_sid=%s"
+    __taskDeleteURL = "DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=delete&id=%s&force_complete=true&_sid=%s"
     __logoutURL = "auth.cgi?api=SYNO.API.Auth&version=1&method=logout&session=DownloadStation"
 
     def __init__(self, path, isSecured):
@@ -62,6 +64,12 @@ class DS:
 
     def Pause(self, id):
         urllib2.urlopen(self.__baseURL + self.__taskPauseURL % (id, self.__sessionID))
+
+    def Resume(self, id):
+        urllib2.urlopen(self.__baseURL + self.__taskResumeURL % (id, self.__sessionID))
+
+    def Delete(self, id):
+        urllib2.urlopen(self.__baseURL + self.__taskDeleteURL % (id, self.__sessionID))
 
 class DSTask:
     def __init__(self, id, title, status, size, sizeDownloaded, sizeUploaded, speedDownload, speedUpload):

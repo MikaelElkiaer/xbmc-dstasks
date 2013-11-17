@@ -5,6 +5,10 @@ from tasks import DS, DSTask
 
 KEY_BUTTON_BACK = 275
 KEY_MENU_ID = 92
+KEY_PLAYPAUSE = 61520
+KEY_STOP = 61528
+
+TASK_LIST_ID = 51
 
 MSG_METHOD = 1
 MSG_EXIT = 2
@@ -38,12 +42,10 @@ class GUI(xbmcgui.WindowXML):
             if not self.__ds.Login(self.__addon.getSetting("ds.username"), self.__addon.getSetting("ds.password")):
                 loginFailed()
                 return
-
         except Exception, e:
             print e.args
             p.close()
             self.__close()
-
         else:
             if p.iscanceled():
                 p.close()
@@ -70,9 +72,8 @@ class GUI(xbmcgui.WindowXML):
                     try:
                         method, args, kwargs = msgArgs
                         method(*args, **kwargs)
-                    except Exception, e:
-                        xbmc.log("DSTasks: Failed to run method: %s" % e.message, xbmc.LOGWARNING)
-
+                    except:
+                        pass
                 elif msgType == MSG_EXIT:
                     running = False
                     break
@@ -82,7 +83,7 @@ class GUI(xbmcgui.WindowXML):
 
     def __getTasks(self):
         tasks = self.__ds.GetTaskList()
-        taskList = self.getControl(51)
+        taskList = self.getControl(TASK_LIST_ID)
 
         count = len(tasks)
 
@@ -97,9 +98,13 @@ class GUI(xbmcgui.WindowXML):
             sizeUploaded = float(task.SizeUploaded) / 1000000000.0
             percentDownload = (float(task.SizeDownloaded) / float(task.Size)*100)
             percentUpload = (float(task.SizeUploaded) / float(task.Size)*100)
+            
             item.setLabel("%s (%.2f Gb / %.2f Gb)" % (task.Title, sizeUploaded if percentDownload == 100.0 else sizeDownloaded, size))
             item.setIconImage("status/%s.png" % task.Status)
+            
             item.setProperty("ID", task.ID)
+            item.setProperty("Title", task.Title)
+            item.setProperty("Status", task.Status)
 
             item.setProperty("TaskDownProgress", "%.2f" % percentDownload)
             item.setProperty("DownloadFinished", str(1 if (percentDownload == 100.0) else 0))
@@ -107,6 +112,7 @@ class GUI(xbmcgui.WindowXML):
             item.setProperty("SpeedDownload", "%d" % (task.SpeedDownload / 1000))
             item.setProperty("SpeedUpload", "%d" % (task.SpeedUpload / 1000))
 
+            # HACK: force redraw
             if item.getLabel2() == "flip":
                 item.setLabel2("flop")
             else:
@@ -119,11 +125,24 @@ class GUI(xbmcgui.WindowXML):
         xbmcgui.WindowXML.close(self)
 
     def onClick(self, controlID):
-        selectedTask = self.getControl(51).getSelectedItem()
+        selectedTask = self.getControl(TASK_LIST_ID).getSelectedItem()
 
     def onFocus(self, controlID):
         pass
 
     def onAction(self, action):
-        if (action.getButtonCode() == KEY_BUTTON_BACK) or(action.getId() == KEY_MENU_ID):
+        selectedTask = self.getControl(TASK_LIST_ID).getSelectedItem()
+        taskID = selectedTask.getProperty("ID")
+        taskTitle = selectedTask.getProperty("Title")
+        taskStatus = selectedTask.getProperty("Status")
+
+        if (action.getButtonCode() == KEY_BUTTON_BACK) or (action.getId() == KEY_MENU_ID):
             self.__close()
+        elif action.getButtonCode() == KEY_PLAYPAUSE:
+            if taskStatus == "paused":
+                self.__ds.Resume(taskID)
+            else:
+                self.__ds.Pause(taskID)
+        elif action.getButtonCode() == KEY_STOP:
+            if xbmcgui.Dialog().yesno("Delete task", "Are you sure you want to delete:", taskTitle + " ?"):
+                pass
