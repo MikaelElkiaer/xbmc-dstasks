@@ -62,9 +62,33 @@
             <visible>Control.IsVisible(51) + ListItem.Property(DownloadFinished)</visible>
           </control>
           <control type="label">
+            <posx>900</posx>
+            <posy>5</posy>
+            <width>100</width>
+            <height>20</height>
+            <font>font10</font>
+            <textcolor>white</textcolor>
+            <selectedcolor>selected</selectedcolor>
+            <align>left</align>
+            <aligny>center</aligny>
+            <label>D: $INFO[ListItem.Property(SpeedDownload)] kb/s</label>
+          </control>
+          <control type="label">
+            <posx>1000</posx>
+            <posy>5</posy>
+            <width>100</width>
+            <height>20</height>
+            <font>font10</font>
+            <textcolor>white</textcolor>
+            <selectedcolor>selected</selectedcolor>
+            <align>left</align>
+            <aligny>center</aligny>
+            <label>U: $INFO[ListItem.Property(SpeedUpload)] kb/s</label>
+          </control>
+          <control type="label">
             <posx>60</posx>
             <posy>5</posy>
-            <width>950</width>
+            <width>700</width>
             <height>20</height>
             <font>font10</font>
             <textcolor>white</textcolor>
@@ -122,6 +146,30 @@
             <midtexture border="6,0,6,0">TaskUpProgressMid.png</midtexture>
             <texturebg border="6,0,6,0">OSDProgressBack.png</texturebg>
             <visible>Control.IsVisible(51) + ListItem.Property(DownloadFinished)</visible>
+          </control>
+          <control type="label">
+            <posx>900</posx>
+            <posy>5</posy>
+            <width>100</width>
+            <height>20</height>
+            <font>font10</font>
+            <textcolor>white</textcolor>
+            <selectedcolor>selected</selectedcolor>
+            <align>left</align>
+            <aligny>center</aligny>
+            <label>D: $INFO[ListItem.Property(SpeedDownload)] kb/s</label>
+          </control>
+          <control type="label">
+            <posx>1000</posx>
+            <posy>5</posy>
+            <width>100</width>
+            <height>20</height>
+            <font>font10</font>
+            <textcolor>white</textcolor>
+            <selectedcolor>selected</selectedcolor>
+            <align>left</align>
+            <aligny>center</aligny>
+            <label>U: $INFO[ListItem.Property(SpeedUpload)] kb/s</label>
           </control>
           <control type="label">
             <posx>60</posx>

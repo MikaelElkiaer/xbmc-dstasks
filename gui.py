@@ -101,6 +101,8 @@ class GUI(xbmcgui.WindowXML):
             item.setProperty("TaskDownProgress", "%.2f" % percentDownload)
             item.setProperty("DownloadFinished", str(1 if (percentDownload == 100.0) else 0))
             item.setProperty("TaskUpProgress", "%.2f" % percentUpload)
+            item.setProperty("SpeedDownload", "%d" % (task.SpeedDownload / 1000))
+            item.setProperty("SpeedUpload", "%d" % (task.SpeedUpload / 1000))
 
             if item.getLabel2() == "flip":
                 item.setLabel2("flop")
