@@ -1,7 +1,6 @@
 import xbmcgui
 import threading
 import Queue
-from addon import Addon
 from tasks import DS, DSTask
 
 KEY_BUTTON_BACK = 275
@@ -24,20 +23,19 @@ class GUI(xbmcgui.WindowXML):
     def __connect(self):
         def loginFailed():
             if xbmcgui.Dialog().yesno("DS Error", "Unable to Connect", "Open Settings"):
-                self.__addon.OpenSettings()
-                self.__addon.Update()
+                self.__addon.openSettings()
                 self.__connect()
             else:
                 self.__close()
 
-        self.__ds = DS(self.__addon.DSPath, self.__addon.IsSecured)
+        self.__ds = DS(self.__addon.getSetting("ds.path"), self.__addon.getSetting("ds.secured"))
 
         p = xbmcgui.DialogProgress()
-        p.create("DS", "Connecting to DS on %s..." % self.__addon.DSPath)
+        p.create("DS", "Connecting to DS on %s..." % self.__addon.getSetting("ds.path"))
         p.update(25)
 
         try:
-            if not self.__ds.Login(self.__addon.Username, self.__addon.Password):
+            if not self.__ds.Login(self.__addon.getSetting("ds.username"), self.__addon.getSetting("ds.password")):
                 loginFailed()
                 return
 
