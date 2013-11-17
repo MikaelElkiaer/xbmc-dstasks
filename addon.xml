@@ -4,7 +4,6 @@
 		<import addon="xbmc.python" version="2.7.3"/>
 	</requires>
     <extension point="xbmc.python.script" library="default.py"/>
-    <extension point="xbmc.service" library="updater.py" start="login"></extension>
 	<extension point="xbmc.addon.metadata">
 		<description>Manage Synology DownloadStation tasks</description>
 		<summary>Manage DS tasks</summary>
