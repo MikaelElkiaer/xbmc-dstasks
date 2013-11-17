@@ -40,15 +40,26 @@
             <texture background="true">$INFO[ListItem.Icon]</texture>
           </control>
           <control type="progress" id="52">
-            <description>Up or download progress</description>
+            <description>Download progress</description>
             <posx>50</posx>
             <posy>20</posy>
             <width>1000</width>
             <height>16</height>
-            <info>ListItem.Property(TaskProgress)</info>
-            <midtexture border="6,0,6,0">OSDProgressMid.png</midtexture>
+            <info>ListItem.Property(TaskDownProgress)</info>
+            <midtexture border="6,0,6,0">TaskDownProgressMid.png</midtexture>
             <texturebg border="6,0,6,0">OSDProgressBack.png</texturebg>
-            <visible>Control.IsVisible(51)</visible>
+            <visible>Control.IsVisible(51) + !ListItem.Property(DownloadFinished)</visible>
+          </control>
+          <control type="progress" id="53">
+            <description>Download progress</description>
+            <posx>50</posx>
+            <posy>20</posy>
+            <width>1000</width>
+            <height>16</height>
+            <info>ListItem.Property(TaskUpProgress)</info>
+            <midtexture border="6,0,6,0">TaskUpProgressMid.png</midtexture>
+            <texturebg border="6,0,6,0">OSDProgressBack.png</texturebg>
+            <visible>Control.IsVisible(51) + ListItem.Property(DownloadFinished)</visible>
           </control>
           <control type="label">
             <posx>60</posx>
@@ -60,7 +71,7 @@
             <selectedcolor>selected</selectedcolor>
             <align>left</align>
             <aligny>center</aligny>
-            <label>$INFO[ListItem.Label] ($INFO[ListItem.Property(TaskProgress)] %)</label>
+            <label>$INFO[ListItem.Label]</label>
             <visible>Control.IsVisible(51)</visible>
           </control>
         </itemlayout>
@@ -91,15 +102,26 @@
             <texture background="true">$INFO[ListItem.Icon]</texture>
           </control>
           <control type="progress" id="52">
-            <description>Up or download progress</description>
+            <description>Download progress</description>
             <posx>50</posx>
             <posy>20</posy>
             <width>1000</width>
             <height>16</height>
-            <info>ListItem.Property(TaskProgress)</info>
-            <midtexture border="6,0,6,0">OSDProgressMid.png</midtexture>
+            <info>ListItem.Property(TaskDownProgress)</info>
+            <midtexture border="6,0,6,0">TaskDownProgressMid.png</midtexture>
             <texturebg border="6,0,6,0">OSDProgressBack.png</texturebg>
-            <visible>Control.IsVisible(51)</visible>
+            <visible>Control.IsVisible(51) + !ListItem.Property(DownloadFinished)</visible>
+          </control>
+          <control type="progress" id="53">
+            <description>Upload progress</description>
+            <posx>50</posx>
+            <posy>20</posy>
+            <width>1000</width>
+            <height>16</height>
+            <info>ListItem.Property(TaskUpProgress)</info>
+            <midtexture border="6,0,6,0">TaskUpProgressMid.png</midtexture>
+            <texturebg border="6,0,6,0">OSDProgressBack.png</texturebg>
+            <visible>Control.IsVisible(51) + ListItem.Property(DownloadFinished)</visible>
           </control>
           <control type="label">
             <posx>60</posx>
@@ -111,7 +133,7 @@
             <selectedcolor>selected</selectedcolor>
             <align>left</align>
             <aligny>center</aligny>
-            <label>$INFO[ListItem.Label] ($INFO[ListItem.Property(TaskProgress)] %)</label>
+            <label>$INFO[ListItem.Label]</label>
             <visible>Control.IsVisible(51)</visible>
           </control>
         </focusedlayout>

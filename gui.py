@@ -98,10 +98,14 @@ class GUI(xbmcgui.WindowXML):
             percentDownload = (float(float(task.SizeDownloaded) / float(task.Size))*100)
             percentUpload = (float(float(task.SizeUploaded) / float(task.Size))*100)
 
-            if percentDownload == 100:
-                item.setProperty("TaskProgress", "%.2f" % percentUpload)
+            item.setProperty("TaskDownProgress", "%.2f" % percentDownload)
+            item.setProperty("DownloadFinished", str(1 if (percentDownload == 100.0) else 0))
+            item.setProperty("TaskUpProgress", "%.2f" % percentUpload)
+
+            if item.getLabel2() == "flip":
+                item.setLabel2("flop")
             else:
-                item.setProperty("TaskProgress", "%.2f" % percentDownload)
+                item.setLabel2("flip")
 
     def __close(self):
         self.__queue.put((MSG_EXIT, None))
