@@ -22,7 +22,11 @@ class DS:
         self.__baseURL = "%s://%s:%s/webapi/" % (protocol, path, port)
         
     def Login(self, username, password):
-        response = urllib2.urlopen(self.__baseURL + self.__loginURL % (username, password))
+        try:
+            response = urllib2.urlopen(self.__baseURL + self.__loginURL % (username, password))
+        except:
+            return False
+
         responseJSON = json.loads(response.read())
 
         success = responseJSON["success"]

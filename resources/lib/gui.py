@@ -1,6 +1,5 @@
 import xbmcgui
 import threading
-import Queue
 from tasks import DS, DSTask
 
 KEY_BUTTON_BACK = 275
@@ -8,10 +7,7 @@ KEY_MENU_ID = 92
 KEY_PLAYPAUSE = 61520
 KEY_STOP = 61528
 
-TASK_LIST_ID = 51
-
-MSG_METHOD = 1
-MSG_EXIT = 2
+ID_TASK_LIST = 51
 
 class GUI(xbmcgui.WindowXML):
     def __init__(self, xmlFilename, scriptPath, addon):
@@ -20,7 +16,6 @@ class GUI(xbmcgui.WindowXML):
 
     def onInit(self):
         self.__thread = threading.Thread(target=self.__update)
-        self.__queue = Queue.Queue()
         self.__items = []
         self.__connect()
 
@@ -57,33 +52,16 @@ class GUI(xbmcgui.WindowXML):
                 self.__close()
             else:
                 p.close()
+                self.running = True
                 self.__thread.start()
 
     def __update(self):
-        running = True
-
-        while running:
-            try:
-                msgType, msgArgs = self.__queue.get(True, 1.0)
-            except Queue.Empty:
-                pass
-            else:
-                if msgType == MSG_METHOD:
-                    try:
-                        method, args, kwargs = msgArgs
-                        method(*args, **kwargs)
-                    except:
-                        pass
-                elif msgType == MSG_EXIT:
-                    running = False
-                    break
-
+        while self.running:
             self.__getTasks()
-
 
     def __getTasks(self):
         tasks = self.__ds.GetTaskList()
-        taskList = self.getControl(TASK_LIST_ID)
+        taskList = self.getControl(ID_TASK_LIST)
 
         count = len(tasks)
 
@@ -119,19 +97,17 @@ class GUI(xbmcgui.WindowXML):
                 item.setLabel2("flip")
 
     def __close(self):
-        self.__queue.put((MSG_EXIT, None))
-        if not self.__thread.ident == None:
-            self.__thread.join()
+        self.running = False
         xbmcgui.WindowXML.close(self)
 
     def onClick(self, controlID):
-        selectedTask = self.getControl(TASK_LIST_ID).getSelectedItem()
+        selectedTask = self.getControl(ID_TASK_LIST).getSelectedItem()
 
     def onFocus(self, controlID):
         pass
 
     def onAction(self, action):
-        selectedTask = self.getControl(TASK_LIST_ID).getSelectedItem()
+        selectedTask = self.getControl(ID_TASK_LIST).getSelectedItem()
         taskID = selectedTask.getProperty("ID")
         taskTitle = selectedTask.getProperty("Title")
         taskStatus = selectedTask.getProperty("Status")
