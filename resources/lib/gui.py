@@ -21,7 +21,7 @@ class GUI(xbmcgui.WindowXML):
 
     def __connect(self):
         def loginFailed():
-            if xbmcgui.Dialog().yesno("DS Error", "Unable to Connect", "Open Settings"):
+            if xbmcgui.Dialog().yesno("DS Error", "Unable to Connect", "Try another host?"):
                 self.__addon.openSettings()
                 self.__connect()
             else:
@@ -30,7 +30,7 @@ class GUI(xbmcgui.WindowXML):
         self.__ds = DS(self.__addon.getSetting("ds.path"), self.__addon.getSetting("ds.secured"))
 
         p = xbmcgui.DialogProgress()
-        p.create("DS", "Connecting to DS on %s..." % self.__addon.getSetting("ds.path"))
+        p.create("DS", "Connecting to DS on '%s'" % self.__addon.getSetting("ds.path"))
         p.update(25)
 
         if not self.__ds.Login(self.__addon.getSetting("ds.username"), self.__addon.getSetting("ds.password")):
@@ -40,7 +40,7 @@ class GUI(xbmcgui.WindowXML):
             if p.iscanceled():
                 p.close()
                 self.__close()
-            p.update(75, "Getting tasks...")
+            p.update(75, "Getting tasks from DS")
             self.__getTasks()
             if p.iscanceled():
                 p.close()
@@ -96,7 +96,8 @@ class GUI(xbmcgui.WindowXML):
 
     def __close(self):
         self.running = False
-        self.__thread.join()
+        if not self.__thread.ident == None:
+            self.__thread.join()
         xbmcgui.WindowXML.close(self)
 
     def onClick(self, controlID):
