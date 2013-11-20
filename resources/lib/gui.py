@@ -33,14 +33,9 @@ class GUI(xbmcgui.WindowXML):
         p.create("DS", "Connecting to DS on %s..." % self.__addon.getSetting("ds.path"))
         p.update(25)
 
-        try:
-            if not self.__ds.Login(self.__addon.getSetting("ds.username"), self.__addon.getSetting("ds.password")):
-                loginFailed()
-                return
-        except Exception, e:
-            print e.args
-            p.close()
-            self.__close()
+        if not self.__ds.Login(self.__addon.getSetting("ds.username"), self.__addon.getSetting("ds.password")):
+            loginFailed()
+            return
         else:
             if p.iscanceled():
                 p.close()
@@ -52,12 +47,15 @@ class GUI(xbmcgui.WindowXML):
                 self.__close()
             else:
                 p.close()
-                self.running = True
                 self.__thread.start()
 
     def __update(self):
-        while self.running:
+        self.running = True
+
+        while running:
             self.__getTasks()
+            if not self.running:
+                break;
 
     def __getTasks(self):
         tasks = self.__ds.GetTaskList()
@@ -98,6 +96,7 @@ class GUI(xbmcgui.WindowXML):
 
     def __close(self):
         self.running = False
+        self.__thread.join()
         xbmcgui.WindowXML.close(self)
 
     def onClick(self, controlID):
