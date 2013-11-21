@@ -7,7 +7,7 @@ KEY_MENU_ID = 92
 KEY_PLAYPAUSE = 61520
 KEY_STOP = 61528
 
-ID_TASK_LIST = 51
+ID_TASK_LIST = 201
 
 class GUI(xbmcgui.WindowXML):
     def __init__(self, xmlFilename, scriptPath, addon):
@@ -71,28 +71,22 @@ class GUI(xbmcgui.WindowXML):
         for task, item in zip(tasks, self.__items):
             size = float(task.Size) / 1000000000.0
             sizeDownloaded = float(task.SizeDownloaded) / 1000000000.0
-            sizeUploaded = float(task.SizeUploaded) / 1000000000.0
-            percentDownload = (float(task.SizeDownloaded) / float(task.Size)*100)
-            percentUpload = (float(task.SizeUploaded) / float(task.Size)*100)
+            done = sizeDownloaded == size
+            speed = task.SpeedDownload / 1000
+
+            if done:
+                sizeUploaded = float(task.SizeUploaded) / 1000000000.0
+                speed = task.SpeedUpload / 1000
             
-            item.setLabel("%s (%.2f Gb / %.2f Gb)" % (task.Title, sizeUploaded if percentDownload == 100.0 else sizeDownloaded, size))
+            item.setLabel(task.Title)
+            item.setLabel2("%.2f Gb / %.2f Gb (%.0f Kb/s)" % (sizeUploaded if done else sizeDownloaded, size, speed))
             item.setIconImage("status/%s.png" % task.Status)
-            
+
             item.setProperty("ID", task.ID)
             item.setProperty("Title", task.Title)
             item.setProperty("Status", task.Status)
 
-            item.setProperty("TaskDownProgress", "%.2f" % percentDownload)
-            item.setProperty("DownloadFinished", str(1 if (percentDownload == 100.0) else 0))
-            item.setProperty("TaskUpProgress", "%.2f" % percentUpload)
-            item.setProperty("SpeedDownload", "%d" % (task.SpeedDownload / 1000))
-            item.setProperty("SpeedUpload", "%d" % (task.SpeedUpload / 1000))
-
-            # HACK: force redraw
-            if item.getLabel2() == "flip":
-                item.setLabel2("flop")
-            else:
-                item.setLabel2("flip")
+        taskList.setEnabled(count > 0)
 
     def __close(self):
         self.running = False
