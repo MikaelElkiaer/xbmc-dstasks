@@ -52,7 +52,7 @@ class GUI(xbmcgui.WindowXML):
     def __update(self):
         self.running = True
 
-        while running:
+        while self.running:
             self.__getTasks()
             if not self.running:
                 break;
