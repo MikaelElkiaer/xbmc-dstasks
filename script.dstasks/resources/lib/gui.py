@@ -55,7 +55,7 @@ class GUI(xbmcgui.WindowXML):
         while self.running:
             self.__getTasks()
             if not self.running:
-                break;
+                return
 
     def __getTasks(self):
         tasks = self.__ds.GetTaskList()
@@ -82,6 +82,8 @@ class GUI(xbmcgui.WindowXML):
             item.setLabel2("%.2f Gb / %.2f Gb (%.0f Kb/s)" % (sizeUploaded if done else sizeDownloaded, size, speed))
             item.setIconImage("status/%s.png" % task.Status)
 
+            item.setProperty("Progress", "%.2f" % (float(sizeUploaded / size)*100) if done else (float(sizeDownloaded / size)*100))
+            
             item.setProperty("ID", task.ID)
             item.setProperty("Title", task.Title)
             item.setProperty("Status", task.Status)
@@ -114,5 +116,5 @@ class GUI(xbmcgui.WindowXML):
             else:
                 self.__ds.Pause(taskID)
         elif action.getButtonCode() == KEY_STOP:
-            if xbmcgui.Dialog().yesno("Delete task", "Are you sure you want to delete:", taskTitle + " ?"):
+            if xbmcgui.Dialog().yesno("Delete task", "Are you sure you want to delete?", taskTitle):
                 self.__ds.Delete(taskID)
