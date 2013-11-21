@@ -2,3 +2,14 @@
 *.pyc
 *.pyo
 *.pyproj
+
+/display.py
+
+/download_station.png
+
+/film.png
+
+/script.dstasks.v12.suo
+/tv.png
+/unsorted.py
+/xbmc-keycodes.txt
