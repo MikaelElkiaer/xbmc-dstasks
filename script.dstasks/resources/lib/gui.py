@@ -99,10 +99,18 @@ class GUI(xbmcgui.WindowXML):
     def onClick(self, controlID):
         selectedTask = self.getControl(ID_TASK_LIST).getSelectedItem()
 
+        __path = self.__addon.getAddonInfo('path')
+
+        popup = xbmcgui.WindowXMLDialog('script-dstasks-taskdetails.xml', __path)
+        popup.doModal()
+        del popup
+
     def onFocus(self, controlID):
         pass
 
     def onAction(self, action):
+        print action.getButtonCode()
+        print action.getId()
         selectedTask = self.getControl(ID_TASK_LIST).getSelectedItem()
         taskID = selectedTask.getProperty("ID")
         taskTitle = selectedTask.getProperty("Title")
