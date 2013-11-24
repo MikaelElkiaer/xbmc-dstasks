@@ -80,7 +80,7 @@
             <width>1070</width>
             <height>40</height>
             <texturebg>confluence-textures/OSDProgressBack.png</texturebg>
-            <midtexture border="7,7,7,7">confluence-textures/OSDProgressMid.png</midtexture>
+            <midtexture border="7,7,7,7">confluence-textures/OSDProgressMidNF.png</midtexture>
             <info>ListItem.Property(Progress)</info>
           </control>
           <control type="image">
@@ -155,7 +155,7 @@
             <width>1070</width>
             <height>40</height>
             <texturebg>confluence-textures/OSDProgressBack.png</texturebg>
-            <midtexture border="7,7,7,7">confluence-textures/OSDProgressMid.png</midtexture>
+            <midtexture border="7,7,7,7">confluence-textures/OSDProgressMidFO.png</midtexture>
             <info>ListItem.Property(Progress)</info>
           </control>
           <control type="label">
@@ -176,7 +176,7 @@
             <width>950</width>
             <height>40</height>
             <font>font12</font>
-            <textcolor>grey2</textcolor>
+            <textcolor>white</textcolor>
             <selectedcolor>selected</selectedcolor>
             <align>right</align>
             <aligny>center</aligny>
