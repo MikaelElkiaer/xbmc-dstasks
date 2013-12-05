@@ -82,8 +82,11 @@ class GUI(xbmcgui.WindowXML):
             item.setLabel2("%.2f Gb / %.2f Gb (%.0f Kb/s)" % (sizeUploaded if done else sizeDownloaded, size, speed))
             item.setIconImage("status/%s.png" % task.Status)
 
-            item.setProperty("Progress", "%.2f" % (float(sizeUploaded / size)*100) if done else (float(sizeDownloaded / size)*100))
-            
+            try:
+                item.setProperty("Progress", "%.2f" % (float(sizeUploaded / size)*100) if done else (float(sizeDownloaded / size)*100))
+            except:
+                item.setProperty("Progress", "0.0")
+
             item.setProperty("ID", task.ID)
             item.setProperty("Title", task.Title)
             item.setProperty("Status", task.Status)
@@ -97,21 +100,14 @@ class GUI(xbmcgui.WindowXML):
         xbmcgui.WindowXML.close(self)
 
     def onClick(self, controlID):
-        selectedTask = self.getControl(ID_TASK_LIST).getSelectedItem()
-
-        __path = self.__addon.getAddonInfo('path')
-
-        popup = xbmcgui.WindowXMLDialog('script-dstasks-taskdetails.xml', __path)
-        popup.doModal()
-        del popup
+      pass
 
     def onFocus(self, controlID):
         pass
 
     def onAction(self, action):
-        print action.getButtonCode()
-        print action.getId()
-        selectedTask = self.getControl(ID_TASK_LIST).getSelectedItem()
+        control = self.getControl(ID_TASK_LIST)
+        selectedTask = control.getSelectedItem()
         taskID = selectedTask.getProperty("ID")
         taskTitle = selectedTask.getProperty("Title")
         taskStatus = selectedTask.getProperty("Status")

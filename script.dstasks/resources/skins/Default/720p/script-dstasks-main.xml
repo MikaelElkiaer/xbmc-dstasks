@@ -75,9 +75,9 @@
         <scrolltime>200</scrolltime>
         <itemlayout height="40" width="1080">
           <control type="progress">
-            <posx>0</posx>
+            <posx>1</posx>
             <posy>0</posy>
-            <width>1070</width>
+            <width>1080</width>
             <height>40</height>
             <texturebg>confluence-textures/OSDProgressBack.png</texturebg>
             <midtexture border="7,7,7,7">confluence-textures/OSDProgressMidNF.png</midtexture>
@@ -141,18 +141,10 @@
             <visible>Control.HasFocus(201)</visible>
             <include>VisibleFadeEffect</include>
           </control>
-          <control type="image">
-            <posx>875</posx>
-            <posy>4</posy>
-            <width>200</width>
-            <height>33</height>
-            <texture border="0,0,14,0">confluence-textures/MediaItemDetailBG.png</texture>
-            <visible>Control.HasFocus(201) + !IsEmpty(ListItem.Label2)</visible>
-          </control>
           <control type="progress">
             <posx>0</posx>
             <posy>0</posy>
-            <width>1070</width>
+            <width>1080</width>
             <height>40</height>
             <texturebg>confluence-textures/OSDProgressBack.png</texturebg>
             <midtexture border="7,7,7,7">confluence-textures/OSDProgressMidFO.png</midtexture>
