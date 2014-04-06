@@ -4,8 +4,8 @@ from tasks import DS, DSTask
 
 KEY_BUTTON_BACK = 275
 KEY_MENU_ID = 92
-KEY_PLAYPAUSE = 61520
-KEY_STOP = 61528
+ACTION_PAUSE = 79
+ACTION_STOP = 13
 
 ID_TASK_LIST = 201
 
@@ -112,13 +112,15 @@ class GUI(xbmcgui.WindowXML):
         taskTitle = selectedTask.getProperty("Title")
         taskStatus = selectedTask.getProperty("Status")
 
+        print action.getId()
+
         if (action.getButtonCode() == KEY_BUTTON_BACK) or (action.getId() == KEY_MENU_ID):
             self.__close()
-        elif action.getButtonCode() == KEY_PLAYPAUSE:
+        elif action.getId() == ACTION_PAUSE:
             if taskStatus == "paused":
                 self.__ds.Resume(taskID)
             else:
                 self.__ds.Pause(taskID)
-        elif action.getButtonCode() == KEY_STOP:
+        elif action.getId() == ACTION_STOP:
             if xbmcgui.Dialog().yesno("Delete task", "Are you sure you want to delete?", taskTitle):
                 self.__ds.Delete(taskID)
